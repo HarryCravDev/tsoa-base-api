@@ -7,37 +7,37 @@ import errorHandler from "./utils/error-handling/errorHandler";
 import notFoundHandler from "./utils/not-found-handler/notFoundHandler";
 
 const run = async () => {
-  const app = express();
+	const app: express.Express = express();
 
-  try {
-    // Use body parser to read sent json payloads
-    app.use(
-      bodyParser.urlencoded({
-        extended: true,
-      })
-    );
+	try {
+		// Use body parser to read sent json payloads
+		app.use(
+			bodyParser.urlencoded({
+				extended: true,
+			})
+		);
 
-    app.use(bodyParser.json());
+		app.use(bodyParser.json());
 
-    app.use(helmet());
+		app.use(helmet());
 
-    app.use(compression());
+		app.use(compression());
 
-    app.use(notFoundHandler);
+		RegisterRoutes(app);
 
-    RegisterRoutes(app);
+		app.use(notFoundHandler);
 
-    app.use(errorHandler);
-  } catch (error) {
-    console.log("Process exited with error: ", error);
-    process.exit(1);
-  }
+		app.use(errorHandler);
+	} catch (error) {
+		console.log("Process exited with error: ", error);
+		process.exit(1);
+	}
 
-  const port = process.env.PORT || 4500;
+	const port = process.env.PORT || 8080;
 
-  app.listen(port, () =>
-    console.log(`Example app listening at http://localhost:${port}`)
-  );
+	app.listen(port, () =>
+		console.log(`Example app listening at http://localhost:${port}`)
+	);
 };
 
 run();
